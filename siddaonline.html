@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Product Card</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .product-card {
+            max-width: 400px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            display: none;
+            /* Initially hide the product card */
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .product-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .vendor-name {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .compare-price {
+            text-decoration: line-through;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .discount {
+            color: #e44d26;
+            font-weight: bold;
+        }
+
+        .add-to-cart-btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <label for="category">Select Category:</label>
+        <select id="category" onchange="changeCategory()">
+            <option value="Men">MENs</option>
+            <option value="Women">Womens</option>
+            <option value="Kid">Kids</option>
+        </select>
+    </div>
+
+    <div class="product-card" id="productCard">
+        <!-- Content will be dynamically added here -->
+    </div>
+
+    <script>
+        // Simulating API response for different categories
+        const apiResponses = {
+            Men: {
+                productImage: "https://img.freepik.com/premium-photo/cool-fashion-casual-men-outfit-wooden-table_93675-18917.jpg",
+                productName: "Mens Fashion",
+                vendorName: "super combo",
+                price: 499.99,
+                comparePrice: 599.99,
+            },
+            Men: {
+                productImage: "https://www.patanjaliparidhan.com/pub/media/catalog/product/cache/2d10fdd5f2c9e29bc0fb816e3f3e598c/p/m/pmfwshpfso1841011navy_1_3.jpg",
+                productName: "Mens Fashion",
+                vendorName: "super combo",
+                price: 499.99,
+                comparePrice: 599.99,
+            },
+            Women: {
+                productImage: "https://img.freepik.com/premium-psd/person-with-excited-expression-pointing-tshirt-mockup_23-2149106999.jpg",
+                productName: "Stylish T-Shirt",
+                vendorName: "FashionHub",
+                price: 29.99,
+                comparePrice: 39.99,
+            },
+            Kid: {
+                productImage: "https://www.saisatgurutextile.com//images/product/sub_images/2023/03/7214-0-2023-03-09_17_07_23.jpeg",
+                productName: "Modal dress",
+                vendorName: "kids Modal",
+                price: 19.99,
+                comparePrice: 24.99,
+            },
+        };
+
+        // Function to calculate discount percentage
+        function calculateDiscountPercentage(price, comparePrice) {
+            const discount = ((comparePrice - price) / comparePrice) * 100;
+            return Math.round(discount);
+        }
+
+        // Function to render product card based on selected category
+        function renderProductCard(category) {
+            const productCard = document.getElementById('productCard');
+            const selectedProduct = apiResponses[category];
+
+            productCard.innerHTML = `
+      <img src="${selectedProduct.productImage}" alt="${selectedProduct.productName}" class="product-image">
+      <div class="product-title">${selectedProduct.productName}</div>
+      <div class="vendor-name">${selectedProduct.vendorName}</div>
+      <div class="price">$${selectedProduct.price.toFixed(2)}</div>
+      <div class="compare-price">$${selectedProduct.comparePrice.toFixed(2)}</div>
+      <div class="discount">${calculateDiscountPercentage(selectedProduct.price, selectedProduct.comparePrice)}% off</div>
+      <button class="add-to-cart-btn">Add to Cart</button>
+    `;
+
+            // Display the product card
+            productCard.style.display = 'block';
+        }
+
+        // Function to handle category change
+        function changeCategory() {
+            const selectedCategory = document.getElementById('category').value;
+            renderProductCard(selectedCategory);
+        }
+
+        // Initial rendering with the default category
+        renderProductCard('electronics');
+    </script>
+
+</body>
+
+</html>
